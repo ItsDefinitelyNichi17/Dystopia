@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsx src/index.ts"
+    "test": "tsx src/index.ts",
+    "try": "tsx src/Utils/FileModerators.ts"
   },
   "keywords": [],
   "author": "",
