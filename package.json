@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "tsx src/index.ts",
-    "try": "tsx src/Utils/FileModerators.ts"
+    "try": "tsx src/Utils/FileModerators.ts",
+    "reg": "tsx src/registerCommand.ts"
   },
   "keywords": [],
   "author": "",

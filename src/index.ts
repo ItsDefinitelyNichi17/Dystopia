@@ -1,4 +1,4 @@
-import {Client, GatewayIntentBits, type Interaction, Collection} from 'discord.js'
+import {Client, GatewayIntentBits, type Interaction, Collection, ChatInputCommandInteraction} from 'discord.js'
 import {type ClientTypes} from './types.js'
 import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
@@ -14,21 +14,30 @@ const bot = new Client({
     ]
 }) as ClientTypes;
 
-bot.commands = new Collection;
+bot.commands = new Collection <string, Function>;
 
 await commandHandler(bot);
 
-console.log(bot.commands);
-
-
-/* 
 bot.on('interactionCreate', (interact : Interaction) => {
+    
     if(interact.isChatInputCommand()){
-        
+        interact as ChatInputCommandInteraction
+
+        for(const command_name of bot.commands.keys()){
+
+            if(interact.commandName === command_name){
+               const commandExec = bot.commands.get(interact.commandName);
+
+               if(commandExec){
+                 commandExec(interact);
+               }
+            }
+        }
     }
 })
+
 bot.on('clientReady', (event : Client)=>{
     console.log("Bot is ready")
 })
 
-bot.login(process.env.BOT_TOKEN); */
+bot.login(process.env.BOT_TOKEN);  
