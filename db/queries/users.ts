@@ -35,8 +35,8 @@ export async function addGold(gold : number, user_id : string){
         console.log(`Error on addGold function, reason : ${e}`);
     }
 }
-const result = await addGold(10 ,'449710278012174346')
-console.log(result!.rows);
+
+
 
 
 

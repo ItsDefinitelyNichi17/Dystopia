@@ -1,4 +1,5 @@
 import { Client, Collection, SlashCommandBuilder } from "discord.js"
+import type { QueryResult } from "pg";
 
 // Classes
 
@@ -12,3 +13,5 @@ export interface CommandType{
     data : SlashCommandBuilder;
     exec : Function;
 }
+
+export type Rows  = QueryResult & {}
