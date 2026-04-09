@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsx src/index.ts",
-    "try": "tsx db/queries/cooldowns.ts",
+    "dev": "tsx src/index.ts",
+    "test": "tsx db/queries/cooldowns.ts",
     "reg": "tsx src/registerCommand.ts"
   },
   "keywords": [],

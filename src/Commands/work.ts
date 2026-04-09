@@ -8,20 +8,17 @@ export default {
         .setDescription("Work to gain golds"),
 
     async exec(interaction : ChatInputCommandInteraction){
-        const user_id = interaction.user.id;
-        const user_name = interaction.user.username;
 
+        const user_id = interaction.user.id;
         const check = await checkCooldown(user_id, "work");
 
         if(check){
-            await regUser(user_id, user_name);
+           
             await setCooldown(user_id, "work", 60);
-            interaction.reply({content: "You are working"})
+            await interaction.followUp({content: "You are working"})
             return;
         }
        
-        interaction.reply({content: "Working is on cooldown"})
-
-       
+        interaction.reply({content: "Working is on cooldown"});
     }
 }

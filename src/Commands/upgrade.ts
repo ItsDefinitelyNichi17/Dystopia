@@ -2,8 +2,8 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 export default {
     data : new SlashCommandBuilder()
-        .setName("flex")
-        .setDescription("Show your stats with eveyone"),
+        .setName("upgrade")
+        .setDescription("upgrade your luck or cool down reduction"),
 
     exec(interaction : ChatInputCommandInteraction){
         
