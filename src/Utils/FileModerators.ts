@@ -2,10 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import { type CommandType } from '../types.js';
 
-
+/**
+ * It returns an Array of commands object from Commands Folder
+ * @returns Array<CommandType>
+ */
 export async function getAllCommands(){
-    
-    const command_list : Array <CommandType>= [];
+
+    const command_list : Array <CommandType> = [];
 
     const folder_path = path.join(import.meta.dirname, ".." , "Commands");
     const files = fs.readdirSync(folder_path); 

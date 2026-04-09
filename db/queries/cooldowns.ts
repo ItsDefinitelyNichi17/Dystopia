@@ -1,8 +1,15 @@
 import type { QueryResult } from 'pg';
 import pool from '../pool.js'
 
-export async function setCooldown( user_id : string,  commands : string,  cooldown : number ){
+/**
+ * Set command's cooldown in second
+ * @param user_id 
+ * @param commands 
+ * @param cooldown 
+ * @returns QueryResult
+ */
 
+export async function setCooldown( user_id : string,  commands : string,  cooldown : number ){
         try{
             const result :QueryResult= await pool.query(`
             INSERT INTO cooldowns (user_id, command, expires_at) 
@@ -17,11 +24,17 @@ export async function setCooldown( user_id : string,  commands : string,  cooldo
         }catch(e){
             console.log(`Error on setCooldown method, reason for ${e}`);
         }
-       
 }
 
+/**
+ * Checks if a command is on cooldown. 
+ * if command or user_id is not found, it returns true.
+ * @param user_id 
+ * @param command 
+ * @returns boolean
+ */
+
 export async function checkCooldown(user_id : string, command : string){
-    
     try{
 
         const result : QueryResult = await pool.query(`
@@ -43,13 +56,4 @@ export async function checkCooldown(user_id : string, command : string){
     }catch(e){
         console.log(`Error on checkCooldown method, reason for ${e}`);
     }
-  
 }
-
-
-const cd = await checkCooldown('4497102780121346', 'wrk');
-
-console.log(cd) 
-/* const result  = await setCooldown('449710278012174346', 'work', (60 * 5));
-
-console.log(result)  */

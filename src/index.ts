@@ -14,7 +14,7 @@ const bot = new Client({
     ]
 }) as ClientTypes;
 
-bot.commands = new Collection <string, Function>;
+bot.commands = new Collection <string, Function>; //{name of the command, execute function}
 
 await commandHandler(bot);
 
@@ -22,12 +22,11 @@ bot.on('interactionCreate', (interact : Interaction) => {
     
     if(interact.isChatInputCommand()){
         interact as ChatInputCommandInteraction
-
         for(const command_name of bot.commands.keys()){
-
+            
             if(interact.commandName === command_name){
-               const commandExec = bot.commands.get(interact.commandName);
-
+               const commandExec = bot.commands.get(interact.commandName); // gets the exec function of the CommandType
+               
                if(commandExec){
                  commandExec(interact);
                }
