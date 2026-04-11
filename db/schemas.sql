@@ -5,7 +5,9 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     user_id VARCHAR(20) NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL,
-    gold INT DEFAULT 0,
+    gold BIGINT DEFAULT 0,
+    chance NUMERIC(5,2) DEFAULT 0.10,
+    base_cooldown INT DEFAULT ((60 * 60) * 2),
     created_at TIMESTAMP DEFAULT NOW()
 );
 
