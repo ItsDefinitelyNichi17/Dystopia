@@ -6,7 +6,7 @@ CREATE TABLE users (
     user_id VARCHAR(20) NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL,
     gold BIGINT DEFAULT 0,
-    chance NUMERIC(5,2) DEFAULT 0.10,
+    chance NUMERIC(5,3) DEFAULT 0.01,
     base_cooldown INT DEFAULT ((60 * 60) * 2),
     created_at TIMESTAMP DEFAULT NOW()
 );

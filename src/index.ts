@@ -3,6 +3,7 @@ import {type ClientTypes} from './types.js'
 import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
 import { getUser, regUser } from '../db/queries/users.js';
+import type { QueryResult } from 'pg';
 
 dotenv.config();
 
@@ -21,16 +22,18 @@ await commandHandler(bot);
 
 bot.on('interactionCreate', async (interact : Interaction) => {
     
+    // CHAT INPUT COMMNADS
     if(interact.isChatInputCommand()){
         interact as ChatInputCommandInteraction
 
-        const user_row = await getUser(interact.user.id);
-        const user_id = interact.user.id;
-        const user_name = interact.user.username;
+        await interact.deferReply({flags : [MessageFlags.Ephemeral]});
+
+        const user_row : QueryResult | undefined = await getUser(interact.user.id);
+        const user_id : string = interact.user.id;
+        const user_name : string = interact.user.username;
 
         if(user_row!.rows.length === 0){ // register user for their first command.
-            await interact.reply({content : "You are now registered from the leaderboard!", 
-                flags : [MessageFlags.Ephemeral]});
+            interact.editReply({content : "You are now registered from the leaderboard!"});
             await regUser(user_id, user_name);
         }
         

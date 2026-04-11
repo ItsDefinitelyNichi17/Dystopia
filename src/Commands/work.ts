@@ -13,12 +13,11 @@ export default {
         const check = await checkCooldown(user_id, "work");
 
         if(check){
-           
             await setCooldown(user_id, "work", 60);
             await interaction.followUp({content: "You are working"})
             return;
         }
        
-        interaction.reply({content: "Working is on cooldown"});
+        interaction.followUp({content: "Working is on cooldown"});
     }
 }

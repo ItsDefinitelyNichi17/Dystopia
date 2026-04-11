@@ -12,3 +12,9 @@ export interface CommandType{
     data : SlashCommandBuilder;
     exec : Function;
 }
+
+
+export interface UserStats{
+    chance : number;
+    cooldown : number;
+}
