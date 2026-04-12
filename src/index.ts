@@ -29,7 +29,7 @@ bot.on('interactionCreate', async (interact : Interaction) => {
     if(interact.isChatInputCommand()){
         interact as ChatInputCommandInteraction
 
-        await interact.deferReply({flags : [MessageFlags.Ephemeral]});
+        await interact.deferReply();
 
         const user : QueryResult | undefined = await getUser(interact.user.id);
         const user_id : string = interact.user.id;

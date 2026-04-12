@@ -1,6 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
 import { checkCooldown, setCooldown } from "../../db/queries/cooldowns.js";
-import { regUser } from "../../db/queries/users.js";
 
 export default {
     data : new SlashCommandBuilder()
