@@ -16,6 +16,9 @@ const bot = new Client({
     ]
 }) as ClientTypes;
 
+//container for users that used this command and not been processed yet
+const working_user = new Set();
+
 bot.commands = new Collection <string, Function>; //{name of the command, execute function}
 
 await commandHandler(bot);
@@ -28,12 +31,12 @@ bot.on('interactionCreate', async (interact : Interaction) => {
 
         await interact.deferReply({flags : [MessageFlags.Ephemeral]});
 
-        const user_row : QueryResult | undefined = await getUser(interact.user.id);
+        const user : QueryResult | undefined = await getUser(interact.user.id);
         const user_id : string = interact.user.id;
         const user_name : string = interact.user.username;
 
-        if(user_row!.rows.length === 0){ // register user for their first command.
-            interact.editReply({content : "You are now registered from the leaderboard!"});
+        if(user!.rows.length === 0){ // register user for their first command.
+            interact.followUp({content : "You are now registered from the leaderboard!"});
             await regUser(user_id, user_name);
         }
         
@@ -42,7 +45,7 @@ bot.on('interactionCreate', async (interact : Interaction) => {
                const commandExec = bot.commands.get(interact.commandName); // gets the exec function of the CommandType
                
                if(commandExec){
-                 commandExec(interact);
+                 commandExec(interact, working_user);
                }
             }
         }
