@@ -16,7 +16,7 @@ export async function getAllCommands(){
     for (const file of files){
         
         const file_path = path.join(folder_path, file);
-
+        
         try{
             const data = await import(file_path);
             command_list.push(data.default);

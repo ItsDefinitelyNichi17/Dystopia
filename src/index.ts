@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
 import { getUser, regUser } from '../db/queries/users.js';
 import type { QueryResult } from 'pg';
+import { getRandomLoot } from './Utils/GameUtils.js';
 
 dotenv.config();
 

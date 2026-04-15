@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "tsx db/queries/cooldowns.ts",
+    "test": "tsx src/Utils/GameUtils.ts",
     "reg": "tsx src/registerCommand.ts"
   },
   "keywords": [],
