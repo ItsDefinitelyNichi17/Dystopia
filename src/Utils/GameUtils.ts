@@ -45,10 +45,11 @@ function getRandomCategory() : CategList | undefined{
 
 /**
  * Returns a probabilistic weight of each loot, check it on [loots.json](../loots.json)
+ * 
  * It uses Cumulative Probaibility which adds all the weight and checks what loot it falls to using (random_weight <= categ.weight)
  * @returns LootsDescription | undefined
  */
-export function getRandomLoot() : LootDescription | undefined {
+export function getProbLoot() : LootDescription | undefined {
 
     const categ = getRandomCategory();
     const randLootsByCateg = getLootsJson()[categ!];
@@ -72,12 +73,11 @@ export function getRandomLoot() : LootDescription | undefined {
 
 
 
-// stress test : use to check for errors
-
+// stress test : use to check getProbLoot()
 /* let count = 0;
 while(true){
     count ++;
-    const loot = getRandomLoot();
+    const loot = getProbLoot();
     if(count === 1000 || loot === undefined){
         console.log(loot)
         break;

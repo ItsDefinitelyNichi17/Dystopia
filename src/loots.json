@@ -1,27 +1,27 @@
 {
     "loots" : { 
         "common" : [
-            { "name" : "Plastic Wrap", "categ" : "common", "cash" : 5, "chance" : 50},
-            { "name" : "Cardboard", "categ" : "common", "cash" : 25, "chance" : 30},
-            { "name" : "Wire", "categ" : "common", "cash" : 40, "chance" : 10},
-            { "name" : "Small Metal Chunk", "categ" : "common", "cash" : 50, "chance" : 8},
-            { "name" : "Crops Seed", "categ" : "common", "gold" : 70, "chance" : 2}
+            { "name" : "Plastic Wrap", "categ" : "Common", "cash" : 5, "chance" : 50},
+            { "name" : "Cardboard", "categ" : "Common", "cash" : 25, "chance" : 30},
+            { "name" : "Wire", "categ" : "Common", "cash" : 40, "chance" : 10},
+            { "name" : "Small Metal Chunk", "categ" : "Common", "cash" : 50, "chance" : 8},
+            { "name" : "Crops Seed", "categ" : "Common", "gold" : 70, "chance" : 2}
         ],
 
         "rare" : [
-            { "name" : "Tires", "categ" : "rare", "cash" : 90, "chance" : 50},
-            { "name" : "Stuff Toy", "categ" : "rare", "cash" : 85, "chance" : 30},
-            { "name" : "Helmet",  "categ" : "rare", "cash" : 110, "chance" : 10},
-            { "name" : "Radio",  "categ" : "rare", "cash" : 120, "chance" : 9},
-            { "name" : "Pistol M19",  "categ" : "rare", "gold" : 300, "chance" : 1}
+            { "name" : "Tire", "categ" : "Rare", "cash" : 90, "chance" : 50},
+            { "name" : "Stuffed Toy", "categ" : "Rare", "cash" : 85, "chance" : 30},
+            { "name" : "Helmet",  "categ" : "Rare", "cash" : 110, "chance" : 10},
+            { "name" : "Radio",  "categ" : "Rare", "cash" : 120, "chance" : 9},
+            { "name" : "Pistol M19",  "categ" : "Rare", "gold" : 300, "chance" : 1}
         ],
 
         "legendary" : [
-            { "name" : "Scope",  "categ" : "legendary", "cash" : 800, "chance" :55},
-            { "name" : "Battery", "categ" : "legendary", "cash" : 1000, "chance" : 35},
-            { "name" : "Cellphone",  "categ" : "legendary", "cash" : 4000, "chance" : 7},
-            { "name" : "AK47",  "categ" : "legendary", "cash" : 6000, "chance" : 2},
-            { "name" : "Small Nuclear Bomb", "categ" : "legendary", "gold" : 10000, "chance" : 1}
+            { "name" : "Scope",  "categ" : "Legendary", "cash" : 800, "chance" :55},
+            { "name" : "Battery", "categ" : "Legendary", "cash" : 1000, "chance" : 35},
+            { "name" : "Cellphone",  "categ" : "Legendary", "cash" : 4000, "chance" : 7},
+            { "name" : "AK47",  "categ" : "Legendary", "cash" : 6000, "chance" : 2},
+            { "name" : "Small Nuclear Bomb", "categ" : "Legendary", "gold" : 10000, "chance" : 1}
         ]
     }
 }

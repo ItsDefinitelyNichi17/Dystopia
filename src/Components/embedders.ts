@@ -1,17 +1,22 @@
-import { EmbedBuilder } from "discord.js";
-import type { UserStats } from "../types.js";
+import { EmbedBuilder, type ColorResolvable } from "discord.js";
+import type { LootDescription } from "../types.js";
 
 
-export function gainGoldEmbedder( gold : string, reason : string, author : string, user_stats : UserStats){
+export function workEmbedder(author : string, color : ColorResolvable, data : LootDescription){
 
-    const {chance, cooldown} = user_stats
     const embeds = new EmbedBuilder()
-    .setTitle(`Here is your payment`)
-    .setDescription(`${author} gained a ${gold} by ${reason}`)
-    .setAuthor({name : author})
+    .setColor(color)
+    .setDescription(`# ATTENTION: ${author} found a ${data.name}\n
+        Now it is being processed by the *Dystopia Organization*.
+        \n **ALL THINGS BELONGS TO THEM**\n\n `)
     .addFields(
-        { name : `luck`, value : `${chance}`, inline : true }, 
-        { name : 'cooldown', value : `${cooldown}`, inline : true})
-    
+        { name : `Loot Name`, value : `${data.name} \t`, inline : true }, 
+        { name : 'Category', value : `**${data.categ}**`, inline : true},
+        { name : '', value : ``, inline : true},
+        { name : 'Value', value : `**${data.cash} DC**`, inline : true},
+        { name : 'Chances', value : `**${data.chance}%**`, inline : true},
+        { name : '', value : ``, inline : true},
+    )
+
     return embeds
 }

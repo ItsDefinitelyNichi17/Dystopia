@@ -21,7 +21,7 @@ export interface UserStats{
 //LootsTypes
 export interface LootDescription{
     name : string,
-    cate : string,
+    categ : string,
     cash : number,
     chance : number
 }

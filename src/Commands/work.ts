@@ -1,5 +1,9 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
 import { checkCooldown, setCooldown } from "../../db/queries/cooldowns.js";
+import { getProbLoot } from "../Utils/GameUtils.js";
+import type { LootDescription } from "../types.js";
+import { workEmbedder } from "../Components/embedders.js";
+import { addGold } from "../../db/queries/users.js";
 
 export default {
     data : new SlashCommandBuilder()
@@ -20,11 +24,20 @@ export default {
 
         if(check){
             await setCooldown(user_id, "work", 60);
-            await interaction.followUp({content: "You are working"});
+            const loot : LootDescription | undefined = getProbLoot();
+            const userName = interaction.user.displayName
+          
+            if(loot){
+                const lootEmbed = workEmbedder(userName, "DarkOrange", loot);
+                addGold(loot.cash, user_id);
+                await interaction.followUp({ embeds : [lootEmbed]});
+            }
+
             
         }else{
-            interaction.followUp({content: "Working is on cooldown"});
+            interaction.followUp({content: "/work is on cooldown"});
         }
+
         working_user.delete(user_id);
         return;
         

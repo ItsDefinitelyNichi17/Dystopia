@@ -28,7 +28,7 @@ export async function setCooldown( user_id : string,  commands : string,  cooldo
 
 /**
  * Checks if a command is on cooldown. 
- * if command or user_id is not found, it returns true.
+ * if command or user_id is not found in the database, it returns true.
  * @param user_id 
  * @param command 
  * @returns boolean
