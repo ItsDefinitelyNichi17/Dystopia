@@ -23,7 +23,8 @@ export interface LootDescription{
     name : string,
     categ : string,
     cash : number,
-    chance : number
+    chance : number,
+    group : string
 }
 export interface Loots{
     common : Array<LootDescription>

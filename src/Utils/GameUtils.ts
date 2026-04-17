@@ -22,17 +22,18 @@ function getLootsJson() : Loots{
  * It uses Cumulative Probaibility which adds all the weight and checks what loot it falls to using (random_weight <= categ.weight)
  * @returns CategList | undefined
  */
-function getRandomCategory() : CategList | undefined{
+function getRandomCategory(rarity_chance : number) : CategList | undefined{
    
     const rarity_categ  = [
-        {name : "common", weight : 80},
-        {name : "rare", weight : 18},
-        {name : "legendary", weight : 2}
+        {name : "Common", weight : 80},
+        {name : "Rare", weight : 18},
+        {name : "Legendary", weight : ( 2 + (rarity_chance * 100)) }
     ]
-    const total_weight = rarity_categ.reduce((accumulator, currentVal)=>{ // add all the weight iin rarity_categ
+    const total_weight = rarity_categ.reduce((accumulator, currentVal)=>{ // add all the weight in rarity_categ
         return accumulator + currentVal.weight;
     }, 0);
-
+ 
+    
     let random_weight = Math.floor(Math.random() * total_weight) + 1;
 
     for (const categ of rarity_categ){
@@ -44,21 +45,27 @@ function getRandomCategory() : CategList | undefined{
 }
 
 /**
- * Returns a probabilistic weight of each loot, check it on [loots.json](../loots.json)
  * 
- * It uses Cumulative Probaibility which adds all the weight and checks what loot it falls to using (random_weight <= categ.weight)
+ * Returns a probabilistic weight of each loot, check it on [loots.json](../loots.json)
+ * It uses Cumulative Probaibility which adds all the weight and checks
+ * what loot it falls to using (random_weight <= categ.weight). 
+ * @param loot_chance  :  To increase the chances of Legendary loots.
+ * @param rarity_chance : To increase the chances of God-tier group.
  * @returns LootsDescription | undefined
  */
-export function getProbLoot() : LootDescription | undefined {
+export function getProbLoot(loot_chance : number, rarity_chance : number) : LootDescription | undefined {
 
-    const categ = getRandomCategory();
+    const categ = getRandomCategory(rarity_chance);
     const randLootsByCateg = getLootsJson()[categ!];
-
     const total_weight = randLootsByCateg.reduce((accumulator, currentVal)=>{
+      
+        if(currentVal.group === "God-tier"){
+            currentVal.chance = currentVal.chance + (loot_chance * 100);
+        }
         return accumulator += currentVal.chance;
     }, 0);
 
-    
+
     let random_weight = Math.floor(Math.random() * total_weight) + 1
    
 
