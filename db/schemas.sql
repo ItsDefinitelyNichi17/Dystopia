@@ -7,7 +7,8 @@ CREATE TABLE users (
     user_id VARCHAR(20) NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL,
     gold BIGINT DEFAULT 0,
-    chance NUMERIC(5,3) DEFAULT 0.01,
+    rarity_chance NUMERIC(5,3) DEFAULT 0.00,
+    loot_chance NUMERIC(5,3) DEFAULT 0.00,
     base_cooldown INT DEFAULT ((60 * 60) * 2),
     created_at TIMESTAMP DEFAULT NOW()
 );
