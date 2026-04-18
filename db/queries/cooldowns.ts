@@ -43,8 +43,8 @@ export async function checkCooldown(user_id : string, command : string){
             WHERE 
                 user_id = $1 AND command = $2`, 
             [user_id, command]);
-        
-        if(!result.rows[0]){
+
+        if(!result.rows[0]){ // result.rows[0] returns undefined(falsy) when user is not yet registered , instead return true bypassing this
             return  true
         }
 
@@ -56,4 +56,32 @@ export async function checkCooldown(user_id : string, command : string){
     }catch(e){
         console.log(`Error on checkCooldown method, reason for ${e}`);
     }
+}
+
+export async function getCooldownInterval(user_id : string, command : string){
+     const result : QueryResult = await pool.query(`
+            SELECT expires_at 
+            FROM cooldowns 
+            WHERE 
+                user_id = $1 AND command = $2`, 
+        [user_id, command]);
+
+    const rows  = result.rows[0];
+    const expiredDate = new Date(rows.expires_at)
+    const currentDate = new Date();
+
+    const intervalInMls = expiredDate.getTime() - currentDate.getTime();
+
+    const Tseconds = Math.floor(intervalInMls/1000);
+    const Tminutes = Math.floor(Tseconds / 60) ; 
+    const Thours = Math.floor(Tseconds / (60 * 60));
+
+    const minutes = Tminutes % 60; 
+    const seconds = Tseconds % 60;
+    
+    //console.log(`sec : ${seconds}, min : ${minutes}, hours : ${Thours}`)
+
+    return {seconds : seconds, minutes : minutes, hours : Thours};
+   
+    
 }

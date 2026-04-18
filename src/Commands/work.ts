@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
-import { checkCooldown, setCooldown } from "../../db/queries/cooldowns.js";
+import { checkCooldown, getCooldownInterval, setCooldown } from "../../db/queries/cooldowns.js";
 import { getProbLoot } from "../Utils/GameUtils.js";
 import type { LootDescription } from "../types.js";
 import { workEmbedder } from "../Components/embedders.js";
@@ -23,11 +23,11 @@ export default {
         const check = await checkCooldown(user_id, "work");
 
         if(check){
-            await setCooldown(user_id, "work", 1);
+            await setCooldown(user_id, "work", ((60*60)*2)); // 60*60 1 hour * 2 = 2 hours
 
             const userFromDB = await getUser(user_id);
             
-            if(!userFromDB) return; // removes the "might be UNDEFINED" shits, i dont want to use the ! shits
+            if(!userFromDB) return; // removes the "might be UNDEFINED" shits, I dont want to use the ! shits
 
                 const loot_chance : number = userFromDB.rows[0].loot_chance;
                 const rarity_chance : number = userFromDB.rows[0].rarity_chance;
@@ -42,7 +42,10 @@ export default {
                 }
 
         }else{
-            interaction.followUp({content: "/work is on cooldown"});
+            const intervalData = await getCooldownInterval(user_id, "work");
+            interaction.followUp({content: 
+                `Work is on cooldown : **${intervalData.hours}** hour(s) **${intervalData.minutes}** minute(s) and **${intervalData.seconds}** second(s)`});
+            
         }
 
         working_user.delete(user_id);
