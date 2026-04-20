@@ -23,11 +23,14 @@ export default {
         const check = await checkCooldown(user_id, "work");
 
         if(check){
-            await setCooldown(user_id, "work", ((60*60)*2)); // 60*60 1 hour * 2 = 2 hours
 
             const userFromDB = await getUser(user_id);
             
-            if(!userFromDB) return; // removes the "might be UNDEFINED" shits, I dont want to use the ! shits
+            if(!userFromDB) return;
+            console.log(userFromDB.rows[0].base_cooldown)
+            await setCooldown(user_id, "work", userFromDB.rows[0].base_cooldown);
+
+            if(!userFromDB) return; // removes the "might be UNDEFINED", preventing this ! for type safety
 
                 const loot_chance : number = userFromDB.rows[0].loot_chance;
                 const rarity_chance : number = userFromDB.rows[0].rarity_chance;
@@ -45,7 +48,6 @@ export default {
             const intervalData = await getCooldownInterval(user_id, "work");
             interaction.followUp({content: 
                 `Work is on cooldown : **${intervalData.hours}** hour(s) **${intervalData.minutes}** minute(s) and **${intervalData.seconds}** second(s)`});
-            
         }
 
         working_user.delete(user_id);

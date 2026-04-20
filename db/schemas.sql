@@ -9,7 +9,7 @@ CREATE TABLE users (
     gold BIGINT DEFAULT 0,
     rarity_chance NUMERIC(5,3) DEFAULT 0.00,
     loot_chance NUMERIC(5,3) DEFAULT 0.00,
-    base_cooldown INT DEFAULT ((60 * 60) * 2),
+    base_cooldown INT DEFAULT ((60 * 60) * 4),
     created_at TIMESTAMP DEFAULT NOW()
 );
 
