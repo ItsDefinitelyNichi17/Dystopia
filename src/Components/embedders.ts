@@ -1,5 +1,6 @@
-import { EmbedBuilder, type ColorResolvable } from "discord.js";
-import type { LootDescription } from "../types.js";
+import { Embed, EmbedBuilder } from "discord.js";
+import type { LootDescription, UserData } from "../types.js";
+import { evalUpgradePrice } from "../Utils/GameUtils.js";
 
 
 export function workEmbedder(author : string, data : LootDescription, loot_chance : number){
@@ -23,4 +24,24 @@ export function workEmbedder(author : string, data : LootDescription, loot_chanc
     )
 
     return embeds
+}
+
+export function upgradeEmbedder(user_data : UserData, userName : string ) : EmbedBuilder{
+
+    const {lootChance, rarityChance, cooldown}= evalUpgradePrice(user_data);
+
+
+    const embeds :EmbedBuilder = new EmbedBuilder()
+    .setColor('Random')
+    .setDescription(`## Good day, ${userName.toUpperCase()}
+    You can upgrade your stats by clicking an appropriate emote below
+    
+    ❤️ **Rarity Chance** = **${250 + (rarityChance * 50)} CD**: Rarity chance increase your chances to get **Legendary** category by 0.002%
+
+    👍 **Loot Chance** = **${400 + (lootChance * 75)} CD**: Rarity chance increase your chances to get **God-tier** loot by 0.002%
+
+    😢 **Reduce Work Cooldown** = **${450 + (cooldown * 90)} CD**: Reduces your Work cooldown by **30 minutes**.`)
+    .setFooter({text : "\nThis is from Dystopia Organization, transactions from here is hidden."})
+
+    return embeds;
 }

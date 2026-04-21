@@ -20,3 +20,12 @@ CREATE TABLE cooldowns (
     expires_at TIMESTAMP NOT NULL,
     UNIQUE(command, user_id)
 );
+
+# TESTING
+
+UPDATE users 
+    SET 
+        rarity_chance = rarity_chance + 0.002,
+        loot_chance = loot_chance + 0.002,
+        base_cooldown = base_cooldown - 300
+    WHERE user_id = '' AND username = ''

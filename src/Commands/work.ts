@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
 import { checkCooldown, getCooldownInterval, setCooldown } from "../../db/queries/cooldowns.js";
 import { getProbLoot } from "../Utils/GameUtils.js";
-import type { LootDescription } from "../types.js";
+import type { LootDescription, UserData } from "../types.js";
 import { workEmbedder } from "../Components/embedders.js";
 import { addGold, getUser } from "../../db/queries/users.js";
 
@@ -10,16 +10,16 @@ export default {
         .setName("work")
         .setDescription("Work to gain golds"),
 
-    async exec(interaction : ChatInputCommandInteraction, working_user : Set<string>){
+    async exec(interaction: ChatInputCommandInteraction, command_container : Set<string>){
 
         const user_id = interaction.user.id;
 
-        if(working_user.has(user_id)){ // this make sure that the user cant spam this command
-            interaction.followUp("You are doing some work, wait for it to finish processing.");
+        if(command_container.has(user_id)){ // this make sure that the user cant spam this command
+            await interaction.followUp("You are doing some work, wait for it to finish processing.");
             return;
         }
         
-        working_user.add(user_id);
+        command_container.add(user_id);
         const check = await checkCooldown(user_id, "work");
 
         if(check){
@@ -27,13 +27,14 @@ export default {
             const userFromDB = await getUser(user_id);
             
             if(!userFromDB) return;
-            console.log(userFromDB.rows[0].base_cooldown)
-            await setCooldown(user_id, "work", userFromDB.rows[0].base_cooldown);
+
+            const userData : UserData = userFromDB.rows[0];
+            await setCooldown(user_id, "work", userData.base_cooldown);
 
             if(!userFromDB) return; // removes the "might be UNDEFINED", preventing this ! for type safety
 
-                const loot_chance : number = userFromDB.rows[0].loot_chance;
-                const rarity_chance : number = userFromDB.rows[0].rarity_chance;
+                const loot_chance : number = userData.loot_chance;
+                const rarity_chance : number = userData.rarity_chance;
                 
                 const loot : LootDescription | undefined = getProbLoot(loot_chance, rarity_chance);
                 const userName = interaction.user.displayName
@@ -50,7 +51,7 @@ export default {
                 `Work is on cooldown : **${intervalData.hours}** hour(s) **${intervalData.minutes}** minute(s) and **${intervalData.seconds}** second(s)`});
         }
 
-        working_user.delete(user_id);
+        command_container.delete(user_id);
         return;
         
     }

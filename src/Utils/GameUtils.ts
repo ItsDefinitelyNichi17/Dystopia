@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import type { LootDescription, Loots } from '../types.js';
+import type { LootDescription, Loots, UserData } from '../types.js';
 
 type CategList = "common" | "rare" | "legendary"
 
@@ -78,15 +78,18 @@ export function getProbLoot(loot_chance : number, rarity_chance : number) : Loot
     }
 }
 
+export function evalUpgradePrice(userData : UserData){
 
+    const data = userData;
 
-// stress test : use to check getProbLoot()
-/* let count = 0;
-while(true){
-    count ++;
-    const loot = getProbLoot();
-    if(count === 1000 || loot === undefined){
-        console.log(loot)
-        break;
-    }
-} */
+    const cd = data.base_cooldown;
+    const lootC = data.loot_chance;
+    const rarityC = data.rarity_chance;
+
+    return{
+        lootChance : (lootC / 0.002) + 1,
+        rarityChance : (rarityC / 0.002) + 1,
+        cooldown : ((14400 - cd) / 300) + 1
+    } 
+
+}

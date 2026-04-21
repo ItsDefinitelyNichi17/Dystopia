@@ -31,3 +31,14 @@ export interface Loots{
     rare : Array<LootDescription>
     legendary : Array<LootDescription>
 }
+
+//UserData
+
+export interface UserData{
+    user_id: string,
+    username : string,
+    gold : number,
+    rarity_chance : number,
+    loot_chance : number,
+    base_cooldown : number
+}

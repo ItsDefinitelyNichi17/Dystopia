@@ -24,7 +24,7 @@ export async function regUser(user_id : string, name : string){
  * @returns QueryResult
  */
 
-export async function getUser(user_id : string){
+export async function getUser(user_id : string) {
 
     try{
         const results : QueryResult = await pool.query(`SELECT * FROM users WHERE user_id = $1;`, [user_id]);
