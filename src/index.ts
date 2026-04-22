@@ -1,10 +1,8 @@
-import {Client, GatewayIntentBits, type Interaction, Collection, ChatInputCommandInteraction, MessageFlags} from 'discord.js'
+import {Client, GatewayIntentBits, type Interaction, Collection} from 'discord.js'
 import {type ClientTypes} from './types.js'
 import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
-import { getUser, regUser } from '../db/queries/users.js';
-import type { QueryResult } from 'pg';
-
+import { InteractionLogics } from './Interactions/interaction.js';
 
 dotenv.config();
 
@@ -17,8 +15,7 @@ const bot = new Client({
     ]
 }) as ClientTypes;
 
-//container for users that used this command and not been processed yet
-const command_container = new Set();
+const command_container :Set<string>= new Set(); //container for users that used this command and not been processed yet
 
 bot.commands = new Collection <string, Function>; //{name of the command, execute function}
 
@@ -28,28 +25,11 @@ bot.on('interactionCreate', async (interact : Interaction) => {
     
     // CHAT INPUT COMMNADS
     if(interact.isChatInputCommand()){
-        interact as ChatInputCommandInteraction
+       InteractionLogics(interact, bot, command_container);
+    }
 
-        await interact.deferReply();
-
-        const user : QueryResult | undefined = await getUser(interact.user.id);
-        const user_id : string = interact.user.id;
-        const user_name : string = interact.user.username;
-
-        if(user!.rows.length === 0){ // register user for their first command.
-            await interact.followUp({content : "You are now registered from the leaderboard!"});
-            await regUser(user_id, user_name);
-        }
+    if(interact.isButton()){
         
-        for(const command_name of bot.commands.keys()){
-            if(interact.commandName === command_name){
-               const commandExec = bot.commands.get(interact.commandName); // gets the exec function of the CommandType
-               
-               if(commandExec){
-                await commandExec(interact, command_container);
-               }
-            }
-        }
     }
 })
 

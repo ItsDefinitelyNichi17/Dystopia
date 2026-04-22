@@ -34,14 +34,17 @@ export function upgradeEmbedder(user_data : UserData, userName : string ) : Embe
     const embeds :EmbedBuilder = new EmbedBuilder()
     .setColor('Random')
     .setDescription(`## Good day, ${userName.toUpperCase()}
-    You can upgrade your stats by clicking an appropriate emote below
+    You can upgrade your stats by clicking the appropritae button below
+    Your current money is **${user_data.gold} DC**
     
-    ❤️ **Rarity Chance** = **${250 + (rarityChance * 50)} CD**: Rarity chance increase your chances to get **Legendary** category by 0.002%
+    **Rarity Chance** = **${250 + (rarityChance * 50)} CD**: Rarity chance increase your chances to get **Legendary** category by 0.002%
 
-    👍 **Loot Chance** = **${400 + (lootChance * 75)} CD**: Rarity chance increase your chances to get **God-tier** loot by 0.002%
+    **Loot Chance** = **${400 + (lootChance * 75)} CD**: Rarity chance increase your chances to get **God-tier** loot by 0.002%
 
-    😢 **Reduce Work Cooldown** = **${450 + (cooldown * 90)} CD**: Reduces your Work cooldown by **30 minutes**.`)
+    **Reduce Work Cooldown** = **${450 + (cooldown * 90)} CD**: Reduces your Work cooldown by **30 minutes**.`)
     .setFooter({text : "\nThis is from Dystopia Organization, transactions from here is hidden."})
+
+
 
     return embeds;
 }

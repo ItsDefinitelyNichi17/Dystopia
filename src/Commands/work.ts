@@ -26,12 +26,10 @@ export default {
 
             const userFromDB = await getUser(user_id);
             
-            if(!userFromDB) return;
+            if(!userFromDB) return; // removes the "might be UNDEFINED", preventing this ! for type safety
 
             const userData : UserData = userFromDB.rows[0];
             await setCooldown(user_id, "work", userData.base_cooldown);
-
-            if(!userFromDB) return; // removes the "might be UNDEFINED", preventing this ! for type safety
 
                 const loot_chance : number = userData.loot_chance;
                 const rarity_chance : number = userData.rarity_chance;
@@ -47,7 +45,7 @@ export default {
 
         }else{
             const intervalData = await getCooldownInterval(user_id, "work");
-            interaction.followUp({content: 
+            await interaction.followUp({content: 
                 `Work is on cooldown : **${intervalData.hours}** hour(s) **${intervalData.minutes}** minute(s) and **${intervalData.seconds}** second(s)`});
         }
 
