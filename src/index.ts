@@ -29,7 +29,7 @@ bot.on('interactionCreate', async (interact : Interaction) => {
     }
 
     if(interact.isButton()){
-        
+
     }
 })
 
