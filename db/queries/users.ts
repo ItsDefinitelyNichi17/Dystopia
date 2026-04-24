@@ -55,6 +55,20 @@ export async function addGold(gold : number, user_id : string){
 }
 
 
+export async function AddRChance(val : number, user_id : string){
+    try{
+        const result : QueryResult = await pool.query(`
+            UPDATE users 
+            SET rarity_chance = rarity_chance + $1 
+            WHERE user_id = $2
+            RETURNING rarity_chance;`, [val, user_id]);
+
+            return result.rows[0]
+    }catch(e){
+        console.log(`Error on AddChance function : ${e}`)
+    }
+}
+
 
 
 

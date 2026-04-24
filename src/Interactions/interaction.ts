@@ -4,11 +4,7 @@ import type { QueryResult } from 'pg';
 import type { ClientTypes } from "../types.js";
 import type { ChatInputCommandInteraction} from 'discord.js';
 
-
-
-
-
-export async function InteractionLogics(interact : ChatInputCommandInteraction, bot : ClientTypes, command_container : Set<string>){
+export async function InteractionCommandLogics(interact : ChatInputCommandInteraction, bot : ClientTypes, command_container : Set<string>){
 
     interact as ChatInputCommandInteraction
 
@@ -21,7 +17,7 @@ export async function InteractionLogics(interact : ChatInputCommandInteraction, 
     if (!user) return;
     
         if(user.rows.length === 0){ // register user for their first command.
-            await interact.followUp({content : "You are now registered from the leaderboard!"});
+            await interact.editReply({content : "You are now registered from the leaderboard!"});
             await regUser(user_id, user_name);
         }
         

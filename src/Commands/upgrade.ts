@@ -20,9 +20,9 @@ export default {
 
             const upgradeEmbed : EmbedBuilder = upgradeEmbedder(userData, userName);
             const buttonRow :ActionRowBuilder<ButtonBuilder>= RarityChanceButton();
-
-            console.log(buttonRow);
-            await interaction.editReply({ content: "Processing your request to upgrade your stats" }); 
+            
+            await interaction.followUp({ content: "Processing your request to upgrade your stats" }); 
             await interaction.followUp({ embeds : [upgradeEmbed], ephemeral: true, components : [buttonRow]}); 
+;
     }
 }

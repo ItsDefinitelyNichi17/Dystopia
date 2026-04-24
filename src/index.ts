@@ -2,7 +2,8 @@ import {Client, GatewayIntentBits, type Interaction, Collection} from 'discord.j
 import {type ClientTypes} from './types.js'
 import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
-import { InteractionLogics } from './Interactions/interaction.js';
+import { InteractionCommandLogics } from './Interactions/interaction.js';
+import { interactionButtonLogic } from './Interactions/button.js';
 
 dotenv.config();
 
@@ -25,11 +26,11 @@ bot.on('interactionCreate', async (interact : Interaction) => {
     
     // CHAT INPUT COMMNADS
     if(interact.isChatInputCommand()){
-       InteractionLogics(interact, bot, command_container);
+       await InteractionCommandLogics(interact, bot, command_container);
     }
 
     if(interact.isButton()){
-
+        await interactionButtonLogic(interact)
     }
 })
 
