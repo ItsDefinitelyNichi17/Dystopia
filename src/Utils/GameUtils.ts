@@ -89,7 +89,7 @@ export function evalUpgradePrice(userData : UserData){
     return{
         lootChance : (lootC / 0.002) + 1,
         rarityChance : (rarityC / 0.002) + 1,
-        cooldown : ((14400 - cd) / 300) + 1
+        cooldown : ((14400 - cd) / 1800) + 1 // 300 is 30 mins
     } 
 
 }

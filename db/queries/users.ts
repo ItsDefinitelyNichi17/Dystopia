@@ -65,7 +65,36 @@ export async function AddRChance(val : number, user_id : string){
 
             return result.rows[0]
     }catch(e){
-        console.log(`Error on AddChance function : ${e}`)
+        console.log(`Error on AddRChance function : ${e}`)
+    }
+}
+
+
+export async function AddLChance(val : number, user_id : string){
+    try{
+        const result : QueryResult = await pool.query(`
+            UPDATE users 
+            SET rarity_chance = loot_chance + $1 
+            WHERE user_id = $2
+            RETURNING loot_chance;`, [val, user_id]);
+            return result.rows[0];
+
+    }catch(e){
+        console.log(`Error on AddLChance function : ${e}`)
+    }
+}
+
+export async function reduceCooldown(val : number, user_id : string){
+    try{
+        const result : QueryResult = await pool.query(`
+            UPDATE users 
+            SET base_cooldown = base_cooldown - $1 
+            WHERE user_id = $2
+            RETURNING base_cooldown`, [val, user_id]);
+            return result.rows[0];
+
+    }catch(e){
+        console.log(`Error on reduceCooldown function : ${e}`)
     }
 }
 
