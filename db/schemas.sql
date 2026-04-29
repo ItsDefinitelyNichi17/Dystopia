@@ -29,3 +29,8 @@ UPDATE users
         loot_chance = loot_chance + 0.002,
         base_cooldown = base_cooldown - 300
     WHERE user_id = '' AND username = ''
+
+UPDATE users 
+    SET 
+       gold = gold + 9999
+    WHERE user_id = '' AND username = ''

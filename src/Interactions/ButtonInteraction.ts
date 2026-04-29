@@ -1,42 +1,63 @@
 import type { ButtonInteraction } from "discord.js";
-import { AddLChance, AddRChance, reduceCooldown } from "../../db/queries/users.js";
+import { AddLChance, AddRChance, getUser, reduceCooldown, reduceGold } from "../../db/queries/users.js";
+import { evalUpgradePrice } from "../Utils/GameUtils.js";
+import type { evalPriceType, UserData } from "../types.js";
 
+type priceNames = 'rarityChance'  | 'lootChance' | 'cooldown'
 
 export async function interactionButtonLogic(interaction : ButtonInteraction){
     interaction as ButtonInteraction
-    
+
+    const data = await getUser(interaction.user.id);
+    if(!data) return;
+
+    const user_data :UserData= data.rows[0];
+    const price :evalPriceType= evalUpgradePrice(user_data);
+
     const buttonData = [
         {
             name : "Rarity Chance",
             buttonName: 'RChanceButt',
             object : 'rarity_chance',
-            exec: await AddRChance(0.002, interaction.user.id)
+            price : 'rarityChance',
+            exec: async() =>  AddRChance(0.002, interaction.user.id)
         },
         {
               
             name : "Loot Chance",
             buttonName: 'LChanceButt',
             object : 'loot_chance',
-            exec: await AddLChance(0.002, interaction.user.id)
+            price : 'lootChance',
+            exec: async() => AddLChance(0.002, interaction.user.id)
         },
         {
             name : "Cooldown",
             buttonName : "reduceCD",
             object : "base_cooldown",
-            exec : await reduceCooldown(1800, interaction.user.id)
+            price : 'cooldown',
+            exec : async() => reduceCooldown(1800, interaction.user.id)
         },
     ]
 
     await interaction.update({ embeds: [], components: [], content: "Process is Complete, the transaction is deleted." });
 
     for( const button of buttonData){
+        const priceName :priceNames= button.price as priceNames
+        const objectPrice = price[priceName];
+        console.log(user_data.gold, objectPrice);
+        if(user_data.gold < objectPrice){
+            await interaction.followUp({content : "You dont have enough money to make this transaction", ephemeral : true});
+            return;
+        }
         if (interaction.customId === button.buttonName){
-            const result = button.exec;
+            const result = await  button.exec();
+            await reduceGold(objectPrice, interaction.user.id);
             if(!(interaction.customId === "reduceCD")){
                 await interaction.followUp({content : `Your ${button.name} is ${result[button.object]}%`, ephemeral: true})
                 return;
             }
                 await interaction.followUp({content : `Your ${button.name} is reduced by 30 mins`, ephemeral: true})
+                return;
         }
     }
 }

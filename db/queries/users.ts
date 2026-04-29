@@ -74,7 +74,7 @@ export async function AddLChance(val : number, user_id : string){
     try{
         const result : QueryResult = await pool.query(`
             UPDATE users 
-            SET rarity_chance = loot_chance + $1 
+            SET loot_chance = loot_chance + $1 
             WHERE user_id = $2
             RETURNING loot_chance;`, [val, user_id]);
             return result.rows[0];
@@ -98,6 +98,17 @@ export async function reduceCooldown(val : number, user_id : string){
     }
 }
 
+export async function reduceGold(val : number, user_id : string){
+     try{
+        const result : QueryResult = await pool.query(`
+            UPDATE users 
+            SET gold = gold - $1 
+            WHERE user_id = $2;`, [val, user_id]);
+
+    }catch(e){
+        console.log(`Error on reduceGold function : ${e}`)
+    }
+}
 
 
 

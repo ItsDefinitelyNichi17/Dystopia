@@ -42,3 +42,9 @@ export interface UserData{
     loot_chance : number,
     base_cooldown : number
 }
+
+export interface evalPriceType{
+    lootChance : number,
+    rarityChance : number,
+    cooldown : number
+}
