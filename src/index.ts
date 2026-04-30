@@ -1,11 +1,10 @@
+
+import 'dotenv/config'
 import {Client, GatewayIntentBits, type Interaction, Collection} from 'discord.js'
 import {type ClientTypes} from './types.js'
-import dotenv from "dotenv"
 import commandHandler from './Handlers/commandHandler.js';
 import { InteractionCommandLogics } from './Interactions/ChatInputCommandInteraction.js';
 import { interactionButtonLogic } from './Interactions/ButtonInteraction.js';
-
-dotenv.config();
 
 const bot = new Client({
     intents : [

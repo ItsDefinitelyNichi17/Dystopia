@@ -2,12 +2,14 @@ import type { ButtonInteraction } from "discord.js";
 import { AddLChance, AddRChance, getUser, reduceCooldown, reduceGold } from "../../db/queries/users.js";
 import { evalUpgradePrice } from "../Utils/GameUtils.js";
 import type { evalPriceType, UserData } from "../types.js";
+import { redis } from "../Utils/redis.js";
+
 
 type priceNames = 'rarityChance'  | 'lootChance' | 'cooldown'
 
 export async function interactionButtonLogic(interaction : ButtonInteraction){
-    interaction as ButtonInteraction
-
+    interaction as ButtonInteraction;
+   
     const data = await getUser(interaction.user.id);
     if(!data) return;
 
@@ -42,22 +44,23 @@ export async function interactionButtonLogic(interaction : ButtonInteraction){
     await interaction.update({ embeds: [], components: [], content: "Process is Complete, the transaction is deleted." });
 
     for( const button of buttonData){
+
         const priceName :priceNames= button.price as priceNames
         const objectPrice = price[priceName];
-        console.log(user_data.gold, objectPrice);
-        if(user_data.gold < objectPrice){
-            await interaction.followUp({content : "You dont have enough money to make this transaction", ephemeral : true});
-            return;
-        }
+    
+          
         if (interaction.customId === button.buttonName){
             const result = await  button.exec();
             await reduceGold(objectPrice, interaction.user.id);
-            if(!(interaction.customId === "reduceCD")){
+
+            if(user_data.gold < objectPrice) 
+                await interaction.followUp({content : "You dont have enough money to make this transaction", ephemeral : true});
+            else if(!(interaction.customId === "reduceCD"))
                 await interaction.followUp({content : `Your ${button.name} is ${result[button.object]}%`, ephemeral: true})
-                return;
-            }
+            else 
                 await interaction.followUp({content : `Your ${button.name} is reduced by 30 mins`, ephemeral: true})
-                return;
+            
+            redis.del(interaction.user.id);
         }
     }
 }
