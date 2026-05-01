@@ -8,6 +8,7 @@ import { redis } from "../Utils/redis.js";
 type priceNames = 'rarityChance'  | 'lootChance' | 'cooldown'
 
 export async function interactionButtonLogic(interaction : ButtonInteraction){
+
     interaction as ButtonInteraction;
    
     const data = await getUser(interaction.user.id);
@@ -50,16 +51,23 @@ export async function interactionButtonLogic(interaction : ButtonInteraction){
     
           
         if (interaction.customId === button.buttonName){
-            const result = await  button.exec();
-            await reduceGold(objectPrice, interaction.user.id);
-
+           
             if(user_data.gold < objectPrice) 
                 await interaction.followUp({content : "You dont have enough money to make this transaction", ephemeral : true});
-            else if(!(interaction.customId === "reduceCD"))
+
+            else if(!(interaction.customId === "reduceCD")){
+                //massive red flag, find a way to optimize this
+                const result =await  button.exec();
                 await interaction.followUp({content : `Your ${button.name} is ${result[button.object]}%`, ephemeral: true})
-            else 
+                await reduceGold(objectPrice, interaction.user.id);
+                
+            }
+            else{
                 await interaction.followUp({content : `Your ${button.name} is reduced by 30 mins`, ephemeral: true})
-            
+                await reduceGold(objectPrice, interaction.user.id);
+                await  button.exec();
+            }
+              
             redis.del(interaction.user.id);
         }
     }

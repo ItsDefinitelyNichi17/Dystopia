@@ -78,6 +78,11 @@ export function getProbLoot(loot_chance : number, rarity_chance : number) : Loot
     }
 }
 
+/**
+ * returns a final price, processed result based on how many times upgrade this stats
+ * @param userData 
+ * @returns 
+ */
 export function evalUpgradePrice(userData : UserData){
 
     const data = userData;
@@ -87,9 +92,9 @@ export function evalUpgradePrice(userData : UserData){
     const rarityC = data.rarity_chance;
 
     return{
-        lootChance :   250 + (((lootC / 0.002) + 1) * 50) ,
-        rarityChance :  450 + (((rarityC / 0.002) + 1) * 75),
-        cooldown : 450 + ((((14400 - cd) / 1800) + 1) * 90) 
+        lootChance :   250 + ((lootC / 0.002) * 50) ,
+        rarityChance :  450 + ((rarityC / 0.002) * 75),
+        cooldown : 450 + ((((14400 - cd) / 1800)) * 90) 
         // (400 + (How Many times user upgrade this) * 90) 
         // 90 is the price that gets multiplied everytime the user upgrade this
         // 450 is the base price
