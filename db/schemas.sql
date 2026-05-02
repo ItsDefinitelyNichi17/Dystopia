@@ -11,7 +11,7 @@ CREATE TABLE users (
     loot_chance NUMERIC(5,3) DEFAULT 0.00,
     base_cooldown INT DEFAULT ((60 * 60) * 4),
     created_at TIMESTAMP DEFAULT NOW(),
-    CONSTRAINT check_gold CHECK(gold <= 9999),
+    CONSTRAINT check_gold CHECK(gold <= 99999),
     CONSTRAINT rarity_check CHECK(rarity_chance <= 0.012),
     CONSTRAINT loot_check CHECK(loot_chance <= 0.012),
     CONSTRAINT cooldown_check CHECK(base_cooldown <= 28800)

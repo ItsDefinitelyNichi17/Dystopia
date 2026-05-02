@@ -35,16 +35,29 @@ export interface Loots{
 //UserData
 
 export interface UserData{
+    id : number,
     user_id: string,
     username : string,
     gold : number,
     rarity_chance : number,
     loot_chance : number,
-    base_cooldown : number
+    base_cooldown : number,
+    created_at : Date
 }
 
 export interface evalPriceType{
     lootChance : number,
     rarityChance : number,
     cooldown : number
+}
+
+type UpgradableObjects = 'rarity_chance' | 'loot_chance' | 'base_cooldown';
+
+export interface ButtonData{
+    name : string,
+    buttonName: string,
+    object : UpgradableObjects,
+    price : string,
+    max : number,
+    exec: Function
 }
