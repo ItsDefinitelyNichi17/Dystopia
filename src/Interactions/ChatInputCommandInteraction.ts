@@ -8,8 +8,6 @@ export async function InteractionCommandLogics(interact : ChatInputCommandIntera
 
     interact as ChatInputCommandInteraction
 
-    await interact.deferReply();
-
     const user : QueryResult | undefined = await getUser(interact.user.id);
     const user_id : string = interact.user.id;
     const user_name : string = interact.user.username;

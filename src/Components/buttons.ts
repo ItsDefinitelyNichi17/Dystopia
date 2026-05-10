@@ -13,6 +13,10 @@ export function RarityChanceButton() : ActionRowBuilder<ButtonBuilder>{
     {
         customId : "reduceCD",
         label : "Reduce Work Cooldown"
+    },
+    {
+        customId : "endTransaction",
+        label : "End Transaction"
     }]
 
 

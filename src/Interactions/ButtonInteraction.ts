@@ -10,7 +10,7 @@ type priceNames = 'rarityChance'  | 'lootChance' | 'cooldown'
 export async function interactionButtonLogic(interaction : ButtonInteraction){
 
     interaction as ButtonInteraction;
-   
+    
     const getData = await getUser(interaction.user.id);
     if(!getData) return;
 
@@ -27,7 +27,6 @@ export async function interactionButtonLogic(interaction : ButtonInteraction){
             exec: async() =>  AddRChance(0.002, interaction.user.id)
         },
         {
-              
             name : "Loot Chance",
             buttonName: 'LChanceButt',
             object : 'loot_chance',
@@ -52,14 +51,19 @@ export async function interactionButtonLogic(interaction : ButtonInteraction){
         const priceName :priceNames= button.price as priceNames
         const objectPrice = price[priceName];
 
+        if (interaction.customId === "endTransaction"){
+            redis.del(interaction.user.id);
+            return;
+        }
+
         if (interaction.customId === button.buttonName){
             const current_cap = user_data[button.object];
             const max_cap = button.max
 
-            redis.del(interaction.user.id); // delete user from the redis data structure. earlier so that if the bug occurs, user will be deleted eventually
+            redis.del(interaction.user.id); //Delete user from the redis data structure. earlier so that if the bug occurs, user will be deleted eventually
 
             if(current_cap >= max_cap){
-                 await interaction.followUp({content : "You hit the maximum cap for this stats", ephemeral : true});
+                await interaction.followUp({content : "You hit the maximum cap for this stats", ephemeral : true});
             }
             else if(user_data.gold < objectPrice) 
                 await interaction.followUp({content : "You dont have enough money to make this transaction", ephemeral : true});

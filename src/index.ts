@@ -28,9 +28,7 @@ bot.on('interactionCreate', async (interact : Interaction) => {
        await InteractionCommandLogics(interact, bot, command_container);
     }
 
-    if(interact.isButton()){
-        await interactionButtonLogic(interact)
-    }
+ 
 })
 
 bot.on('clientReady', (event : Client)=>{

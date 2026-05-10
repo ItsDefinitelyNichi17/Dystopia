@@ -11,7 +11,7 @@ export default {
         .setDescription("Work to gain golds"),
 
     async exec(interaction: ChatInputCommandInteraction, command_container : Set<string>){
-
+        await interaction.deferReply();
         const user_id = interaction.user.id;
 
         if(command_container.has(user_id)){ // this make sure that the user cant spam this command
