@@ -28,7 +28,7 @@ export function workEmbedder(author : string, data : LootDescription, loot_chanc
 
 export function upgradeEmbedder(user_data : UserData, userName : string ) : EmbedBuilder{
 
-    const {lootChance, rarityChance, cooldown}= evalUpgradePrice(user_data);
+    const {lootChance, rarityChance, cooldown} = evalUpgradePrice(user_data);
 
 
     const embeds :EmbedBuilder = new EmbedBuilder()
@@ -45,6 +45,20 @@ export function upgradeEmbedder(user_data : UserData, userName : string ) : Embe
     .setFooter({text : "\nThis is from Dystopia Organization, transactions from here is hidden."})
 
 
+
+    return embeds;
+}
+
+export function showEmbedder(user_data : UserData, username : string){
+    const embeds = new EmbedBuilder()
+    .setColor('Random')
+    .setDescription(`## ${username.toUpperCase()} STATS`)
+    .addFields(
+        {name: `Username`, value : `${username}`},
+        {name: `Dystopia Currency`, value : `${user_data.gold} DC`},
+        {name: `Current Cooldown`, value : `${Math.ceil(user_data.base_cooldown / 3600)} hours and ${user_data.base_cooldown % 60} seconds`},
+        {name: `Current Loot Chances`, value : `Rarity Chance : ${user_data.rarity_chance}, Loot Chance : ${user_data.loot_chance}`}
+    )
 
     return embeds;
 }
